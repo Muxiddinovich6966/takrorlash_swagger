@@ -12,7 +12,7 @@ from configapp.views.teacher_view import TeacherViewSet
 router = DefaultRouter()
 router.register(r'teacher', TeacherViewSet, basename='teacher')
 
-from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView, TokenBlacklistView)
+from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView, TokenBlacklistView, TokenVerifyView)
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -29,8 +29,9 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('configapp.urls')),
-    path('tokenref', TokenRefreshView.as_view(), name='token'),
-    path('tokenac', TokenBlacklistView.as_view(), name='token'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     path('swagger.<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

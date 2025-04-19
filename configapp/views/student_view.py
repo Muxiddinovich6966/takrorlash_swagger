@@ -5,12 +5,13 @@ from rest_framework.response import Response
 from drf_yasg.utils import swagger_auto_schema
 from ..models import Student, User
 from ..serializers import StudentSerializer, StudentUserSerializer, StudentPostSerializer
-
+from configapp.permissions import IsAdminUserOnly
 
 
 class StudentApi(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
+    permission_classes = [IsAdminUserOnly]
 
     def get_serializer_class(self):
         if self.action == 'create':
